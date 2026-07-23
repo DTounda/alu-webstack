@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# TEMPORARY diagnostic version
-echo "=== raw dig output ==="
-dig www.holberton.online 2>&1
-echo "=== dig exit code: $? ==="
-echo "=== basic network test ==="
-curl -s -m 3 -o /dev/null -w "curl exit: %{http_code}\n" https://1.1.1.1 2>&1
+# TEMPORARY diagnostic v2
+echo "=== param 1 raw ==="
+printf '%s' "$1" | cat -A
+echo ""
+echo "=== param 2 raw ==="
+printf '%s' "$2" | cat -A
+echo ""
+echo "=== dig with +noall +answer on constructed hostname ==="
+dig "$2.$1" +noall +answer
+echo "=== exit: $? ==="
