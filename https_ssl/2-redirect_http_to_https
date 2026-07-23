@@ -1,0 +1,21 @@
+global
+    daemon
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http_front
+    bind *:80
+    redirect scheme https code 301
+
+frontend https_front
+    bind *:443 ssl crt /etc/haproxy/certs/www.tounda.tech.pem
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 54.197.0.33:80 check
+    server web-02 32.193.226.244:80 check
